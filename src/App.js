@@ -1,5 +1,8 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TeamSelect from './TeamSelect';
+import SampleComponent from './SampleComponent';
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         >
           Learn React
         </a>
+        <TeamSelect teamType="Home"/>
+        <TeamSelect teamType="Away"/>
+
       </header>
     </div>
   );
