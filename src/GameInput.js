@@ -8,39 +8,32 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 function GameInput(props) {
 
-    //data structure to instantiate a new game
-    /*const Game = (homeTeam, homeScore, awayTeam, awayScore, Date, key) => {
-        return {
-            homeTeam: homeTeam,
-            homeScore: homeScore,
-            awayTeam: awayTeam,
-            awayScore: awayScore,
-            Date: Date,
-            key: key
+    const handleScoreChange = (event) => {
+        if(event.target.id = 'home-score'){
+            props.thisGame.homeScore = event.target.value;
+        }else{
+            props.thisGame.awayScore = event.target.value;
         }
-    }*/
+        props.handleGameEdit(props.thisGame);
+    }
 
-    const [gameState, setGame] = useState(props.Game);
     return (
-        <div style={{'display':'flex', 'padding': '10px', margin: '10px'}}>
-            {console.log(props.thisGame)}
+        <div style={{'display':'flex', 'padding': '10px', margin: '10px'}} data-id={props.thisGame.key}>
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         label={"DatePicker" + props.thisGame.key}
                         value={props.thisGame.date}
                         onChange={(newDate) => {
-                            setGame(
-                                gameState => 
-                                gameState.date = newDate
-                                )
+                            props.thisGame.date = newDate
+                            props.handleGameEdit(props.thisGame)
                         }}
                         renderInput={(params) => <TextField {...params} />}
                     />
                 </LocalizationProvider>
             </div>
             <div align="right">
-                <TeamSelect teamType="Home" setTeamState={setGame}/>
+                <TeamSelect teamType="Home"handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
             </div>
             <div align="right">
                 <TextField
@@ -50,10 +43,11 @@ function GameInput(props) {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    onChange={handleScoreChange}
                 />
             </div>
             <div align="right">
-                <TeamSelect teamType="Away" setTeamState={setGame}/>
+                <TeamSelect teamType="Away" handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
             </div>
             <div align="right">
                 <TextField
@@ -63,6 +57,7 @@ function GameInput(props) {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    onChange={handleScoreChange}
                 />
             </div>
             <div align="right">
@@ -71,7 +66,7 @@ function GameInput(props) {
             <div>
                 <Button
                     onClick={() => {
-                        props.updateAllGames(games => games.filter(game => game !== props.thisGame));
+                        props.updateAllGames(games => games.filter(game => game !== props.thisGame));                        
                     }}
                 >
                     Remove Game ID {props.thisGame.key}

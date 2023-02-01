@@ -11,7 +11,12 @@ function TeamSelect(props){
 
     const handleChange = (SelectChangeEvent) => {
         setSelectedTeam(SelectChangeEvent.target.value);
-        props.setTeamState(game => game.homeTeam = SelectChangeEvent.target.value);
+        if(props.teamType == 'Home'){
+            props.thisGame.homeTeam = SelectChangeEvent.target.value;
+        }else{
+            props.thisGame.awayTeam = SelectChangeEvent.target.value;
+        }
+       props.handleGameEdit(props.thisGame);
     };
 
     useEffect(() => {

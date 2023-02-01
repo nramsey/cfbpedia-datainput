@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import GameInput from './GameInput';
 import { Button } from '@mui/material';
+import { click } from '@testing-library/user-event/dist/click';
 
 function CreateGames() {
 
@@ -17,15 +18,23 @@ function CreateGames() {
   }
 
   const [games, setGames] = useState([]);
-  const numberofGames = 3;
+  const [gameCount, setGameCount] = useState(0);
 
-  while (games.length < numberofGames) {
+  /*while (games.length < numberofGames) {
     const blankGame = new Game('', 0, '', 0, Date.now, games.length);
     games.push(blankGame);
-  }
+  }*/
 
   const [data, setData] = useState([]);
   const [url, setUrl] = useState('');
+
+  //this function will be used by the gameinput component to update the state of the parent
+  const handleGameEdit = (editedGame) => {
+    const gameId = editedGame.key
+    const newArr = [...games];
+    newArr[gameId] = editedGame;
+    setGames(newArr);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,18 +63,18 @@ function CreateGames() {
             homeScore: 0,
             awayTeam: '',
             awayScore: 0,
-            key: games.length
+            key: gameCount
           };
           setGames(games => [...games, game]);
+          //set game count so we can always give the game a unique key in case a record is removed
+          setGameCount(gameCount => gameCount + 1)
         }}
       >
         Add Game
       </Button>
 
-      {console.log(games)}
-
       {games.map((game) => (
-        <GameInput updateAllGames={setGames} thisGame={game} Game={Game} key={game.key} />
+        <GameInput updateAllGames={setGames} thisGame={game} Game={Game} key={game.key} handleGameEdit={handleGameEdit}/>
       ))}
 
       <Button>
