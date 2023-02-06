@@ -11,7 +11,8 @@ function GameLocationSelect(props){
     const [selectedLocation, setSelectedLocation] = useState('');
 
     const handleChange = (SelectChangeEvent) => {
-        setSelectedLocation(SelectChangeEvent.target.textContent);
+        props.thisGame.specialLocation = SelectChangeEvent.target.textContent;
+        props.handleGameEdit(props.thisGame);
     };
     
     useEffect(() => {

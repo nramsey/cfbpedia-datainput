@@ -20,23 +20,30 @@ function CreateGames() {
     }
   }
 
+  //Add a blank game to the state, pass in 0 to create a game with a non FBS opponent
+  const AddBlankGame = (awayTeamId) => {
+    const game = {
+      homeTeam: '',
+      homeScore: 0,
+      awayTeam: awayTeamId,
+      awayScore: 0,
+      awayTeamName: '',
+      specialLocation: '',
+      gameName: '',
+      key: gameCount,
+      isValid: false
+    };
+    setGames(games => [...games, game]);
+    //set game count so we can always give the game a unique key in case a record is removed
+    setGameCount(gameCount => gameCount + 1)
+  }
+  
   const [games, setGames] = useState([]);
   const [gameCount, setGameCount] = useState(0);
 
   //put in a blank default game
   if(games.length == 0) {
-    const blankGame = new Game(
-      '', //homeTeamId
-      0, //homeTeamScore
-      '', //awayTeamId
-      0, //awayTeamScore
-      Date.now, 
-      '', //game special location
-      '', //gamename
-      games.length, //gamekey 
-      false //isgamevalid
-      );
-    games.push(blankGame);
+    AddBlankGame('');
   }
 
   const [data, setData] = useState([]);
@@ -82,20 +89,7 @@ function CreateGames() {
       
       <Button
         onClick={() => {
-          const game = {
-            homeTeam: '',
-            homeScore: 0,
-            awayTeam: '',
-            awayScore: 0,
-            awayTeamName: '',
-            specialLocation: '',
-            gameName: '',
-            key: gameCount,
-            isValid: false
-          };
-          setGames(games => [...games, game]);
-          //set game count so we can always give the game a unique key in case a record is removed
-          setGameCount(gameCount => gameCount + 1)
+          AddBlankGame('')
         }}
       >
         Add Regular Game
@@ -103,20 +97,7 @@ function CreateGames() {
 
       <Button
         onClick={() => {
-          const game = {
-            homeTeam: '',
-            homeScore: 0,
-            awayTeam: 0,
-            awayScore: 0,
-            awayTeamName: '',
-            specialLocation: '',
-            gameName: '',
-            key: gameCount,
-            isValid: false
-          };
-          setGames(games => [...games, game]);
-          //set game count so we can always give the game a unique key in case a record is removed
-          setGameCount(gameCount => gameCount + 1)
+          AddBlankGame(0)
         }}
       >
         Add 🧁 Game

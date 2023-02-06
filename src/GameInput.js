@@ -67,10 +67,10 @@ function GameInput(props) {
 
             </div>
             <div align="right">
-                <GameNameSelect handleGameEdit={props.handleGameEdit}/>
+                <GameNameSelect handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
             </div>
             <div align="right">
-                <GameLocationSelect handleGameEdit={props.handleGameEdit}/>
+                <GameLocationSelect handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
             </div>
             <div>
                 <Button

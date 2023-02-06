@@ -11,6 +11,8 @@ function GameNameSelect(props){
 
     const handleChange = (SelectChangeEvent) => {
         setSelectedGameName(SelectChangeEvent.target.value);
+        props.thisGame.gameName = SelectChangeEvent.target.value;
+        props.handleGameEdit(props.thisGame);
     };
     
     useEffect(() => {
