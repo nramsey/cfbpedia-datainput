@@ -12,9 +12,9 @@ function GameInput(props) {
 
     const handleScoreChange = (event) => {
         if(event.target.id == 'home-score'){
-            props.thisGame.homeScore = event.target.value;
+            props.thisGame.PointsFor = event.target.value;
         }else{
-            props.thisGame.awayScore = event.target.value;
+            props.thisGame.PointsAgainst = event.target.value;
         }
         props.handleGameEdit(props.thisGame);
     }
@@ -25,9 +25,9 @@ function GameInput(props) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         label={"DatePicker" + props.thisGame.key}
-                        value={props.thisGame.date}
+                        value={props.thisGame.GameDate}
                         onChange={(newDate) => {
-                            props.thisGame.date = newDate
+                            props.thisGame.GameDate = newDate
                             props.handleGameEdit(props.thisGame)
                         }}
                         renderInput={(params) => <TextField {...params} />}
@@ -49,7 +49,7 @@ function GameInput(props) {
                 />
             </div>
             <div align="right">
-                {props.thisGame.awayTeam !== 0 
+                {props.thisGame.OpponentTeamID !== 0 
                 ? <TeamSelect teamType="Away" handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
                 : <NonFBSTeamSelect handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
                 }

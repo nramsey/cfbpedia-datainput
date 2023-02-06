@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import GameInput from './GameInput';
 import { Button } from '@mui/material';
-import { click } from '@testing-library/user-event/dist/click';
 
 function CreateGames() {
 
   //data structure to instantiate a new game
-  const Game = (homeTeam, homeScore, awayTeam, awayScore, Date, specialLocation, gameName, key, isValid) => {
+  const Game = (TeamId, PointsFor, OpponentTeamID, OpponentName, PointsAgainst, Date, specialLocation, gameName, key, isValid) => {
     return {
-      homeTeam: homeTeam,
-      homeScore: homeScore,
-      awayTeam: awayTeam,
-      awayScore: awayScore,
-      date: Date,
+      TeamId: TeamId,
+      PointsFor: PointsFor,
+      OpponentTeamID: OpponentTeamID,
+      OpponentName: OpponentName,
+      PointsAgainst: PointsAgainst,
+      GameDate: Date,
       specialLocation: specialLocation,
       gameName: gameName,
       key: key,
@@ -21,13 +21,13 @@ function CreateGames() {
   }
 
   //Add a blank game to the state, pass in 0 to create a game with a non FBS opponent
-  const AddBlankGame = (awayTeamId) => {
+  const AddBlankGame = (OpponentTeamID) => {
     const game = {
-      homeTeam: '',
-      homeScore: 0,
-      awayTeam: awayTeamId,
-      awayScore: 0,
-      awayTeamName: '',
+      TeamId: '',
+      PointsFor: 0,
+      OpponentTeamID: OpponentTeamID,
+      OpponentName: '',
+      PointsAgainst: 0,
       specialLocation: '',
       gameName: '',
       key: gameCount,
@@ -40,14 +40,12 @@ function CreateGames() {
   
   const [games, setGames] = useState([]);
   const [gameCount, setGameCount] = useState(0);
+  const [error, setError] = useState('');
 
   //put in a blank default game
   if(games.length == 0) {
     AddBlankGame('');
   }
-
-  const [data, setData] = useState([]);
-  const [url, setUrl] = useState('');
 
   //this function will be used by the gameinput component to update the state of the parent
   const handleGameEdit = (editedGame) => {
@@ -56,7 +54,7 @@ function CreateGames() {
     const newGamesArray = [...games];
 
     //make sure at least the teams are set
-    if(!editedGame.homeTeam || !editedGame.awayTeam){
+    if(!editedGame.TeamId || !editedGame.OpponentTeamID){
       editedGame.isValid = false;
     }else{
       editedGame.isValid = true;
@@ -67,21 +65,30 @@ function CreateGames() {
     setGames(newGamesArray);
   }
 
+  //posts the games the the create games endpoint
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const result = await response.json();
-      // do something with the result
-    } catch (error) {
-      // handle errors
-    }
+    games.map(game => (
+      fetch("https://localhost:44363/api/GamesAPI/", {
+          method: 'POST',
+          body: JSON.stringify(game),
+          headers: {
+            'Content-Type': 'application/json'
+          }}
+          )
+        .then((response) => {
+                return response.json();
+            }
+            )
+        .then(
+            (result) => {
+                
+            },
+            (error) => {
+                //setError(error);
+            }
+        )
+    ))
   }
 
   return (
@@ -107,7 +114,10 @@ function CreateGames() {
         <GameInput updateAllGames={setGames} thisGame={game} Game={Game} key={game.key} handleGameEdit={handleGameEdit}/>
       ))}
 
-      <Button>
+      <Button
+        onClick={(event) => {
+          handleSubmit(event);
+        }}>
         Submit All Games for Creation
       </Button>
     </div>

@@ -6,16 +6,14 @@ function TeamSelect(props){
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [teams, setTeams] = useState([]);
-    const [nonFBSteamNames, setnonFBSteamNames] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState('');
-
 
     const handleChange = (SelectChangeEvent) => {
         setSelectedTeam(SelectChangeEvent.target.value);
         if(props.teamType == 'Home'){
-            props.thisGame.homeTeam = SelectChangeEvent.target.value;
+            props.thisGame.TeamId = SelectChangeEvent.target.value;
         }else{
-            props.thisGame.awayTeam = SelectChangeEvent.target.value;
+            props.thisGame.OpponentTeamID = SelectChangeEvent.target.value;
         }
        props.handleGameEdit(props.thisGame);
     };

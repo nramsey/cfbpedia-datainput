@@ -12,8 +12,8 @@ function NonFBSTeamSelect(props){
     const handleChange = (SelectChangeEvent) => {
         setSelectedTeam(SelectChangeEvent.target.value);
         //assume the team is the away team, and a team id of 0 for non FBS teams
-        props.thisGame.awayTeam = 0;
-        props.thisGame.awayTeamName = SelectChangeEvent.target.textContent;
+        props.thisGame.OpponentTeamID = 0;
+        props.thisGame.OpponentName = SelectChangeEvent.target.textContent;
        props.handleGameEdit(props.thisGame);
     };
 
