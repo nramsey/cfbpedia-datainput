@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import TeamSelect from './TeamSelect';
 import GameNameSelect from './GameNameSelect';
+import NonFBSTeamSelect from './NonFBSTeamSelect'
 import { TextField, Button } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import GameLocationSelect from './GameLocationSelect';
 
 function GameInput(props) {
 
     const handleScoreChange = (event) => {
-        if(event.target.id = 'home-score'){
+        if(event.target.id == 'home-score'){
             props.thisGame.homeScore = event.target.value;
         }else{
             props.thisGame.awayScore = event.target.value;
@@ -47,7 +49,10 @@ function GameInput(props) {
                 />
             </div>
             <div align="right">
-                <TeamSelect teamType="Away" handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
+                {props.thisGame.awayTeam !== 0 
+                ? <TeamSelect teamType="Away" handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
+                : <NonFBSTeamSelect handleGameEdit={props.handleGameEdit} thisGame={props.thisGame}/>
+                }
             </div>
             <div align="right">
                 <TextField
@@ -59,9 +64,13 @@ function GameInput(props) {
                     }}
                     onChange={handleScoreChange}
                 />
+
             </div>
             <div align="right">
-                <GameNameSelect />
+                <GameNameSelect handleGameEdit={props.handleGameEdit}/>
+            </div>
+            <div align="right">
+                <GameLocationSelect handleGameEdit={props.handleGameEdit}/>
             </div>
             <div>
                 <Button

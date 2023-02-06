@@ -6,6 +6,7 @@ function TeamSelect(props){
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [teams, setTeams] = useState([]);
+    const [nonFBSteamNames, setnonFBSteamNames] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState('');
 
 
@@ -20,7 +21,6 @@ function TeamSelect(props){
     };
 
     useEffect(() => {
-        //fetchData();
         fetch("https://localhost:44363/api/TeamsAPI")
         .then((response) => {
                 return response.json();
@@ -35,7 +35,7 @@ function TeamSelect(props){
                 setIsLoaded(true);
                 setError(error);
             }
-        )
+        );
     }, [])
 
     return(
