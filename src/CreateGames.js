@@ -15,7 +15,7 @@ function CreateGames() {
       GameDate: Date,
       specialLocation: specialLocation,
       gameName: gameName,
-      key: key,
+      //key: key,
       isValid: isValid
     }
   }
@@ -30,8 +30,10 @@ function CreateGames() {
       PointsAgainst: 0,
       specialLocation: '',
       gameName: '',
-      key: gameCount,
-      isValid: false
+      //key: gameCount,
+      isValid: false,
+      complete: false,
+      error: ''
     };
     setGames(games => [...games, game]);
     //set game count so we can always give the game a unique key in case a record is removed
@@ -65,9 +67,23 @@ function CreateGames() {
     setGames(newGamesArray);
   }
 
+  //this funciton will be used by the gameinput component to remove a game for the parent
+  const handleGameRemoval = (remotedGamed) => {
+    const gameId = remotedGamed.key
+    //copy the state array into a new array
+    const newGamesArray = [...games];
+
+    //update the copied state array with the new game information
+    newGamesArray[gameId] = remotedGamed;
+    //update the state
+    setGames(newGamesArray);
+  }
+
   //posts the games the the create games endpoint
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //don't submit games that have already been completed
+    games.filter(game => game.complete === true);
     games.map(game => (
       fetch("https://localhost:44363/api/GamesAPI/", {
           method: 'POST',
@@ -82,10 +98,14 @@ function CreateGames() {
             )
         .then(
             (result) => {
-                
+                //set the game to complete
+                game.complete = true;
+                handleGameEdit(game);
             },
             (error) => {
-                //setError(error);
+              //set error on game
+              game.error = error;
+              handleGameEdit(game);
             }
         )
     ))

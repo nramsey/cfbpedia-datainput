@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TeamSelect from './TeamSelect';
 import GameNameSelect from './GameNameSelect';
 import NonFBSTeamSelect from './NonFBSTeamSelect'
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Icon } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,6 +21,18 @@ function GameInput(props) {
 
     return (
         <div style={{'display':'flex', 'padding': '10px', margin: '10px'}} data-id={props.thisGame.key}>
+            {
+            /*display checkmark when game completed*/
+            props.thisGame.complete === true 
+                ? <span>✔️</span>
+                : <span></span>
+            }
+            {
+            /*display error if there is an error creating the game*/
+            props.thisGame.error.length > 0
+                ?<span style="color:red">props.thisGame.error</span>
+                : <span></span>
+            }
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -75,6 +87,7 @@ function GameInput(props) {
             <div>
                 <Button
                     onClick={() => {
+                        
                         props.updateAllGames(games => games.filter(game => game !== props.thisGame));                        
                     }}
                 >
