@@ -9,11 +9,11 @@ function NonFBSTeamSelect(props){
     const [nonFBSteamNames, setnonFBSteamNames] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState([]);
 
-    const handleChange = (SelectChangeEvent) => {
-        setSelectedTeam(SelectChangeEvent.target.value);
+    const handleChange = (newValue) => {
+        //setSelectedTeam(SelectChangeEvent.target.value);
         //assume the team is the away team, and a team id of 0 for non FBS teams
         props.thisGame.OpponentTeamID = 0;
-        props.thisGame.OpponentName = SelectChangeEvent.target.textContent;
+        props.thisGame.OpponentName = newValue;
        props.handleGameEdit(props.thisGame);
     };
 
@@ -46,7 +46,7 @@ function NonFBSTeamSelect(props){
                 renderInput={(params) => <TextField {...params} label="Team Name"  />}
                 onChange={(event, newValue) => {
                     setSelectedTeam(newValue);
-                    handleChange(event);
+                    handleChange(newValue);
                   }}
                 />
                 </FormControl>
