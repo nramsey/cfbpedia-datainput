@@ -5,8 +5,10 @@ import NonFBSTeamSelect from './NonFBSTeamSelect'
 import { TextField, Button, Icon } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import GameLocationSelect from './GameLocationSelect';
+import dayjs from 'dayjs';
 
 function GameInput(props) {
 
@@ -39,7 +41,7 @@ function GameInput(props) {
                         label={"DatePicker" + props.thisGame.key}
                         value={props.thisGame.GameDate}
                         onChange={(newDate) => {
-                            props.thisGame.GameDate = newDate
+                            props.thisGame.GameDate = dayjs(newDate).startOf('day')
                             props.handleGameEdit(props.thisGame)
                         }}
                         renderInput={(params) => <TextField {...params} />}

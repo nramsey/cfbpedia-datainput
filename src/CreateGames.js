@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import GameInput from './GameInput';
 import { Button } from '@mui/material';
+import dayjs from 'dayjs'
 
 function CreateGames() {
 
@@ -33,7 +34,8 @@ function CreateGames() {
       //key: gameCount,
       isValid: false,
       complete: false,
-      error: ''
+      error: '',
+      GameDate: dayjs().startOf('day')
     };
     setGames(games => [...games, game]);
     //set game count so we can always give the game a unique key in case a record is removed

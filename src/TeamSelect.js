@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 function TeamSelect(props){
 
@@ -56,6 +58,22 @@ function TeamSelect(props){
                 </Select>
                 </FormControl>
         </div>
+        /*<div>
+            <FormControl style={{minWidth: 200}}>
+                    <InputLabel></InputLabel>
+                    <Autocomplete
+                    disablePortal
+                    id="combo-box-for-FBS-teams"
+                    options={teams}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Team Name"  />}
+                    onChange={(event, newValue) => {
+                        setSelectedTeam(newValue);
+                        handleChange(event);
+                      }}
+                    />
+            </FormControl>
+        </div>*/
     );
 }
 
